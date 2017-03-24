@@ -3,7 +3,7 @@ import 'angular-sanitize';
 import 'angular-bootstrap';
 import 'ngSmoothScroll';
 import 'ez-ng';
-import 'angular-hotkeys';
+import 'angular-keyboard';
 import '../lib/custom-event-polyfill';
 
 function config($uibTooltipProvider) {

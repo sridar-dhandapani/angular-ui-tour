@@ -1,6 +1,6 @@
 import angular from 'angular';
 
-export default function uiTourController($timeout, $q, $filter, TourConfig, uiTourBackdrop, uiTourService, ezEventEmitter, hotkeys) {
+export default function uiTourController($timeout, $q, $filter, TourConfig, uiTourBackdrop, uiTourService, ezEventEmitter, KeyboardShortcuts) {
     'ngInject';
 
     var self = this,
@@ -167,42 +167,48 @@ export default function uiTourController($timeout, $q, $filter, TourConfig, uiTo
      * Configures hot keys for controlling the tour with the keyboard
      */
     function setHotKeys() {
-        hotkeys.add({
-            combo: 'esc',
-            description: 'End tour',
-            callback: function () {
+        KeyboardShortcuts.register(
+            'End tour',
+            'esc',
+            function () {
                 self.end();
-            }
-        });
+            },
+            {
+                private: true
+            });
 
-        hotkeys.add({
-            combo: 'right',
-            description: 'Go to next step',
-            callback: function () {
+        KeyboardShortcuts.register(
+            'Go to next step',
+            'right',
+            function () {
                 if (isNext()) {
                     self.next();
                 }
-            }
-        });
+            },
+            {
+                private: true
+            });
 
-        hotkeys.add({
-            combo: 'left',
-            description: 'Go to previous step',
-            callback: function () {
+        KeyboardShortcuts.register(
+            'Go to previous step',
+            'left',
+            function () {
                 if (isPrev()) {
                     self.prev();
                 }
-            }
-        });
+            },
+            {
+                private: true
+            });
     }
 
     /**
      * Turns off hot keys for when the tour isn't running
      */
     function unsetHotKeys() {
-        hotkeys.del('esc');
-        hotkeys.del('right');
-        hotkeys.del('left');
+        KeyboardShortcuts.remove('End tour', 'esc');
+        KeyboardShortcuts.remove('Go to next step', 'right');
+        KeyboardShortcuts.remove('Go to previous step', 'left');
     }
 
     //---------------- Protected API -------------------
