@@ -19,7 +19,7 @@ export default angular.module('bm.uiTour', [
     'ui.bootstrap',
     'smoothScroll',
     'ezNg',
-    'cfp.hotkeys'
+    'angular-keyboard'
 ])
     .config(config)
     .provider('TourConfig', require('./tour-config-provider'))

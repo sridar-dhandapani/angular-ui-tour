@@ -87,7 +87,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    });
 	}
 	
-	exports.default = _angular2.default.module('bm.uiTour', ['ngSanitize', 'ui.bootstrap', 'smoothScroll', 'ezNg', 'cfp.hotkeys']).config(config).provider('TourConfig', __webpack_require__(8)).factory('uiTourBackdrop', __webpack_require__(9)).factory('TourHelpers', __webpack_require__(10)).factory('uiTourService', __webpack_require__(11)).controller('uiTourController', __webpack_require__(12)).directive('uiTour', __webpack_require__(13)).directive('tourStep', __webpack_require__(14).tourStepDirective).directive('tourStepPopup', __webpack_require__(14).tourStepPopupDirective).name;
+	exports.default = _angular2.default.module('bm.uiTour', ['ngSanitize', 'ui.bootstrap', 'smoothScroll', 'ezNg', 'angular-keyboard']).config(config).provider('TourConfig', __webpack_require__(8)).factory('uiTourBackdrop', __webpack_require__(9)).factory('TourHelpers', __webpack_require__(10)).factory('uiTourService', __webpack_require__(11)).controller('uiTourController', __webpack_require__(12)).directive('uiTour', __webpack_require__(13)).directive('tourStep', __webpack_require__(14).tourStepDirective).directive('tourStepPopup', __webpack_require__(14).tourStepPopupDirective).name;
 	module.exports = exports['default'];
 
 /***/ },
