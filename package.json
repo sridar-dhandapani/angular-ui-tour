@@ -38,7 +38,7 @@
     "tour"
   ],
   "dependencies": {
-    "angular-hotkeys": "1.7.0",
+    "angular-keyboard": "0.2.0",
     "angular-sanitize": ">=1.3",
     "angular-ui-bootstrap": ">=2.0.0",
     "ez-ng": "0.1.8",
