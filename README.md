@@ -13,6 +13,8 @@ Bootstrap Tour, but plays nicely with Angular, **and does not have any dependenc
 
 Check out the live demo [here](http://benmarch.github.io/angular-ui-tour).
 
+This fork depends on [angular-keyboard](https://github.com/gampleman/angular-keyboard) instead of [angular-hotkeys](https://github.com/chieffancypants/angular-hotkeys).
+
 ## Versions 
 
 If you are using **Angular Bootstrap 1.x**, please use **Angular UI Tour 0.5.x**. If you are using **Angular Bootstrap 2.x**, please use **Angular UI Tour 0.6.x or later**. Older versions of Angular Bootstrap are no longer supported, sorry.
@@ -36,7 +38,7 @@ Add the script tags:
 <script src="bower_components/ngSmoothScroll/lib/angular-smooth-scroll.js"></script>
 <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
 <script src="bower_components/ez-ng/dist/ez-ng.js"></script>
-<script src="bower_components/angular-hotkeys/build/hotkeys.js"></script>
+<script src="bower_components/angular-keyboard/build/angular-keyboard.js"></script>
 <!--end dependencies-->
 
 <!--Angular UI Tour-->
