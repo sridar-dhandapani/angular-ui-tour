@@ -1,12 +1,12 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("angular"), require("angular-sanitize"), require("angular-bootstrap"), require("ngSmoothScroll"), require("ez-ng"), require("angular-hotkeys"));
+		module.exports = factory(require("angular"), require("angular-sanitize"), require("angular-bootstrap"), require("ngSmoothScroll"), require("ez-ng"), require("angular-keyboard"));
 	else if(typeof define === 'function' && define.amd)
-		define("uiTour", ["angular", "angular-sanitize", "angular-bootstrap", "ngSmoothScroll", "ez-ng", "angular-hotkeys"], factory);
+		define("uiTour", ["angular", "angular-sanitize", "angular-bootstrap", "ngSmoothScroll", "ez-ng", "angular-keyboard"], factory);
 	else if(typeof exports === 'object')
-		exports["uiTour"] = factory(require("angular"), require("angular-sanitize"), require("angular-bootstrap"), require("ngSmoothScroll"), require("ez-ng"), require("angular-hotkeys"));
+		exports["uiTour"] = factory(require("angular"), require("angular-sanitize"), require("angular-bootstrap"), require("ngSmoothScroll"), require("ez-ng"), require("angular-keyboard"));
 	else
-		root["uiTour"] = factory(root["angular"], root["angular-sanitize"], root["angular-bootstrap"], root["ngSmoothScroll"], root["ez-ng"], root["angular-hotkeys"]);
+		root["uiTour"] = factory(root["angular"], root["angular-sanitize"], root["angular-bootstrap"], root["ngSmoothScroll"], root["ez-ng"], root["angular-keyboard"]);
 })(this, function(__WEBPACK_EXTERNAL_MODULE_1__, __WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_3__, __WEBPACK_EXTERNAL_MODULE_4__, __WEBPACK_EXTERNAL_MODULE_5__, __WEBPACK_EXTERNAL_MODULE_6__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -731,7 +731,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 	
-	uiTourController.$inject = ["$timeout", "$q", "$filter", "TourConfig", "uiTourBackdrop", "uiTourService", "ezEventEmitter", "hotkeys"];
+	uiTourController.$inject = ["$timeout", "$q", "$filter", "TourConfig", "uiTourBackdrop", "uiTourService", "ezEventEmitter", "KeyboardShortcuts"];
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
@@ -743,7 +743,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	function uiTourController($timeout, $q, $filter, TourConfig, uiTourBackdrop, uiTourService, ezEventEmitter, hotkeys) {
+	function uiTourController($timeout, $q, $filter, TourConfig, uiTourBackdrop, uiTourService, ezEventEmitter, KeyboardShortcuts) {
 	    'ngInject';
 	
 	    var self = this,
@@ -910,32 +910,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * Configures hot keys for controlling the tour with the keyboard
 	     */
 	    function setHotKeys() {
-	        hotkeys.add({
-	            combo: 'esc',
-	            description: 'End tour',
-	            callback: function callback() {
-	                self.end();
-	            }
+	        KeyboardShortcuts.register('End tour', 'esc', function () {
+	            self.end();
+	        }, {
+	            private: true
 	        });
 	
-	        hotkeys.add({
-	            combo: 'right',
-	            description: 'Go to next step',
-	            callback: function callback() {
-	                if (isNext()) {
-	                    self.next();
-	                }
+	        KeyboardShortcuts.register('Go to next step', 'right', function () {
+	            if (isNext()) {
+	                self.next();
 	            }
+	        }, {
+	            private: true
 	        });
 	
-	        hotkeys.add({
-	            combo: 'left',
-	            description: 'Go to previous step',
-	            callback: function callback() {
-	                if (isPrev()) {
-	                    self.prev();
-	                }
+	        KeyboardShortcuts.register('Go to previous step', 'left', function () {
+	            if (isPrev()) {
+	                self.prev();
 	            }
+	        }, {
+	            private: true
 	        });
 	    }
 	
@@ -943,9 +937,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * Turns off hot keys for when the tour isn't running
 	     */
 	    function unsetHotKeys() {
-	        hotkeys.del('esc');
-	        hotkeys.del('right');
-	        hotkeys.del('left');
+	        KeyboardShortcuts.remove('End tour', 'esc');
+	        KeyboardShortcuts.remove('Go to next step', 'right');
+	        KeyboardShortcuts.remove('Go to previous step', 'left');
 	    }
 	
 	    //---------------- Protected API -------------------
@@ -1471,7 +1465,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    options = 'content title animation placement backdrop backdropBorderRadius orphan popupDelay popupCloseDelay popupClass fixed preventScrolling scrollIntoView nextStep prevStep nextPath prevPath scrollOffset'.split(' '),
 	                    tooltipAttrs = 'animation appendToBody placement popupDelay popupCloseDelay'.split(' '),
 	                    orderWatch,
-	                    enabledWatch;
+	                    enabledWatch,
+	                    contentWatch;
 	
 	                //check if this step belongs to another tour
 	                if (attrs[TourHelpers.getAttrName('belongsTo')]) {
@@ -1507,6 +1502,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        ctrl.addStep(step);
 	                    } else {
 	                        ctrl.removeStep(step);
+	                    }
+	                });
+	
+	                // watch for content updates
+	                contentWatch = attrs.$observe(TourHelpers.getAttrName('content'), function (content) {
+	                    if (content) {
+	                        step.trustedContent = $sce.trustAsHtml(step.content);
 	                    }
 	                });
 	
@@ -1559,6 +1561,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    ctrl.removeStep(step);
 	                    orderWatch();
 	                    enabledWatch();
+	                    contentWatch();
 	                });
 	            };
 	        }
